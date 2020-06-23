@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import 'bootswatch/dist/darkly/bootstrap.min.css';
 
@@ -7,10 +8,12 @@ import Routes from './routes';
 
 function App() {
   return (
-    <div className="container">
-      <Navbar />
-      <Routes />
-    </div>
+    <BrowserRouter>
+      <div className="container">
+        <Navbar />
+        <Routes />
+      </div>
+    </BrowserRouter>
   );
 }
 
