@@ -42,6 +42,12 @@ export default class ProdutoService {
     return JSON.parse(produtos);
   }
 
+  findOne = (sku) => {
+    let produtos = localStorage.getItem(PRODUTOS);
+    
+    return JSON.parse(produtos).filter(produto => produto.sku === sku);
+  }
+
   salvar = (produto) => {
     this.validaCampos(produto);
 

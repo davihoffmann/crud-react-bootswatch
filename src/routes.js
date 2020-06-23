@@ -10,7 +10,7 @@ export default function Routes() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/produto" exact component={Produtos} />
-        <Route path="/produto/cadastro" exact component={CadastroProdutos} />
+        <Route path="/produto/cadastro/:sku?" exact component={CadastroProdutos} />
       </Switch>
   );
 }

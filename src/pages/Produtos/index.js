@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import ProdutoService from '../../services/ProdutoService';
 
-export default class Produtos extends Component {
+class Produtos extends Component {
   state = {
     produtos: [],
   }
@@ -12,12 +13,17 @@ export default class Produtos extends Component {
     this.service = new ProdutoService();
   }
 
+  // Busca os produtos
   componentDidMount() {
     const produtos = this.service.index();
 
     this.setState({
       produtos,
     })
+  }
+
+  editar = (sku) => {
+    this.props.history.push(`/produto/cadastro/${sku}`);
   }
 
   render() {
@@ -40,13 +46,16 @@ export default class Produtos extends Component {
             </thead>
             <tbody>
               {
-                produtos.map(produto => (
-                  <tr key={produto.sku}>
+                produtos.map((produto, index) => (
+                  <tr key={index}>
                     <td>{produto.nome}</td>
                     <td>{produto.sku}</td>
                     <td>{produto.preco}</td>
                     <td>{produto.fornecedor}</td>
-                    <td></td>
+                    <td>
+                      <button onClick={() => this.editar(produto.sku)} className="btn btn-primary">Editar</button>
+                      <button className="btn btn-danger">Remover</button>
+                    </td>
                   </tr>
                 ))
               }
@@ -59,3 +68,5 @@ export default class Produtos extends Component {
   }
 
 }
+
+export default withRouter(Produtos)

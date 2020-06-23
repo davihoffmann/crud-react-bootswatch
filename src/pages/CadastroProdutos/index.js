@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import Alert from '../../components/Alert';
 
@@ -13,7 +14,7 @@ const Produto = {
   gravou: false
 }
 
-class Produtos extends Component {
+class CadastroProdutos extends Component {
   state =  { 
     Produto, 
     gravou: false,
@@ -24,6 +25,17 @@ class Produtos extends Component {
     super();
 
     this.service = new ProdutoService();
+  }
+
+  componentDidMount() {
+    const { sku } = this.props.match.params
+    
+    if(sku) {
+      const produto = this.service.findOne(sku);
+      if(produto.length === 1) {
+        this.setState({...produto[0]});
+      }
+    }
   }
 
   handleChange = (e) => {
@@ -71,7 +83,6 @@ class Produtos extends Component {
             gravou 
               && <Alert type="alert-success" title="Sucesso!" mesage="cadastrado realizado com sucesso!" />
           }
-
           {
              errors.length > 0
               && errors.map(error => {
@@ -171,4 +182,4 @@ class Produtos extends Component {
   }
 }
 
-export default Produtos;
+export default withRouter(CadastroProdutos);
