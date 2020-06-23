@@ -36,6 +36,12 @@ export default class ProdutoService {
     }
   }
 
+  index = () => {
+    let produtos = localStorage.getItem(PRODUTOS);
+    
+    return JSON.parse(produtos);
+  }
+
   salvar = (produto) => {
     this.validaCampos(produto);
 
