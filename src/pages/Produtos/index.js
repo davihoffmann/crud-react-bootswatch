@@ -21,11 +21,16 @@ class Produtos extends Component {
 
     this.setState({
       produtos,
-    })
+    });
   }
 
   editar = (sku) => {
     this.props.history.push(`/produto/cadastro/${sku}`);
+  }
+
+  deletar = (sku) => {
+    const produtos = this.service.deletar(sku);
+    this.setState({produtos});
   }
 
   render() {
@@ -65,7 +70,7 @@ class Produtos extends Component {
                       <td>{produto.fornecedor}</td>
                       <td>
                         <button onClick={() => this.editar(produto.sku)} className="btn btn-primary">Editar</button>
-                        <button className="btn btn-danger">Remover</button>
+                        <button onClick={() => this.deletar(produto.sku) } className="btn btn-danger">Remover</button>
                       </td>
                     </tr>
                   ))
