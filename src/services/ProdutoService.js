@@ -5,11 +5,8 @@ function ErrorException(errors) {
 }
 
 export default class ProdutoService {
-
   validaCampos = (produto) => {
     const errors = [];
-
-    console.log(produto);
 
     if(!produto.nome) {
       errors.push('O campo Nome é obrigatório');
@@ -43,15 +40,34 @@ export default class ProdutoService {
   }
 
   findOne = (sku) => {
-    let produtos = localStorage.getItem(PRODUTOS);
+    let produtosStorage = localStorage.getItem(PRODUTOS);
+
+    let produtos = JSON.parse(produtosStorage)
     
-    return JSON.parse(produtos).filter(produto => produto.sku === sku);
+    let produto = produtos.filter(p => p.sku === sku)
+
+    return produto;
+  }
+
+  obterIndex = (sku) => {
+    let index = null;
+    this.index().forEach((produto, i) => {
+      if(produto.sku === sku) {
+        index = i;
+      }
+    });
+    return index;
   }
 
   salvar = (produto) => {
+    console.log('chamou1');
     this.validaCampos(produto);
 
+    console.log('chamou2');
+
     let produtos = localStorage.getItem(PRODUTOS);
+
+    console.log(produtos);
 
     if(!produtos) {
       produtos = [];
@@ -59,7 +75,12 @@ export default class ProdutoService {
       produtos = JSON.parse(produtos);
     }
 
-    produtos.push(produto);
+    const indexProd = this.obterIndex(produto.sku);
+    if(indexProd === null) {
+      produtos.push(produto);
+    } else {
+      produtos[indexProd] = produto;
+    }
 
     localStorage.setItem(PRODUTOS, JSON.stringify(produtos));
   }
