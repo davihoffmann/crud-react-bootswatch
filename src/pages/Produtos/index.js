@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import Alert from '../../components/Alert';
+
 import ProdutoService from '../../services/ProdutoService';
 
 class Produtos extends Component {
@@ -46,18 +48,27 @@ class Produtos extends Component {
             </thead>
             <tbody>
               {
-                produtos.map((produto, index) => (
-                  <tr key={index}>
-                    <td>{produto.nome}</td>
-                    <td>{produto.sku}</td>
-                    <td>{produto.preco}</td>
-                    <td>{produto.fornecedor}</td>
-                    <td>
-                      <button onClick={() => this.editar(produto.sku)} className="btn btn-primary">Editar</button>
-                      <button className="btn btn-danger">Remover</button>
-                    </td>
-                  </tr>
-                ))
+                produtos.length === 0 
+                ? 
+                  (
+                    <tr>
+                      <td colSpan="5">
+                        <Alert type="alert-info" title="Atenção!" mesage="Nenhum produto encontrado!" />
+                      </td>
+                    </tr>
+                  )
+                : produtos.map((produto, index) => (
+                    <tr key={index}>
+                      <td>{produto.nome}</td>
+                      <td>{produto.sku}</td>
+                      <td>{produto.preco}</td>
+                      <td>{produto.fornecedor}</td>
+                      <td>
+                        <button onClick={() => this.editar(produto.sku)} className="btn btn-primary">Editar</button>
+                        <button className="btn btn-danger">Remover</button>
+                      </td>
+                    </tr>
+                  ))
               }
             </tbody>
           </table>

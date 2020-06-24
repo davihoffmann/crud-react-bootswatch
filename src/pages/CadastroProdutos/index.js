@@ -18,7 +18,8 @@ class CadastroProdutos extends Component {
   state =  { 
     Produto, 
     gravou: false,
-    errors: []
+    errors: [],
+    isUpdate: false
   };
 
   constructor() {
@@ -33,7 +34,7 @@ class CadastroProdutos extends Component {
     if(sku) {
       const produto = this.service.findOne(sku);
       if(produto.length === 1) {
-        this.setState({...produto[0]});
+        this.setState({...produto[0], isUpdate: true});
       }
     }
   }
@@ -48,8 +49,6 @@ class CadastroProdutos extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('chamou');
-
     const { nome, sku, descricao, preco, fornecedor } = this.state;
 
     const produto = {
@@ -60,14 +59,8 @@ class CadastroProdutos extends Component {
       fornecedor,
     }
 
-    console.log(produto);
-
-    console.log('chamou');
-
     try {
-      console.log('chamou');
       this.service.salvar(produto);
-      console.log('chamou');
       this.handleCleanFields();
       this.setState({ gravou: true, errors: [] });
     } catch(err) {
@@ -81,11 +74,15 @@ class CadastroProdutos extends Component {
   }
 
   render() {
-    const { nome, sku, descricao, preco, fornecedor, gravou, errors } = this.state;
+    const { nome, sku, descricao, preco, fornecedor, gravou, errors, isUpdate } = this.state;
 
     return (
       <div className="card text-white bg-primary mb-3">
-        <div className="card-header">Cadastro de Produtos</div>
+        <div className="card-header">
+          {
+            isUpdate ? 'Atualizando Produto' : 'Cadastro de Produtos'
+          }
+        </div>
         <div className="card-body">
           {
             gravou 
@@ -118,6 +115,7 @@ class CadastroProdutos extends Component {
                 <label>SKU: *</label>
                 <input 
                   type="text" 
+                  disabled={isUpdate}
                   value={sku} 
                   name="sku"
                   onChange={this.handleChange}
