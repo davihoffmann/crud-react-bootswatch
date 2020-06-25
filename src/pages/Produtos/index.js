@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Alert from '../../components/Alert';
+import Card from '../../components/Card';
 
 import ProdutoService from '../../services/ProdutoService';
 
@@ -37,10 +38,7 @@ class Produtos extends Component {
     const { produtos } = this.state;
 
     return (
-      <div className="card text-white bg-secondary mb-3">
-        <div className="card-header">Cadastro de Produtos</div>
-        <div className="card-body">
-
+      <Card title="Consulta de Produtos">
           <table className="table table-hover">
             <thead>
               <tr>
@@ -77,9 +75,7 @@ class Produtos extends Component {
               }
             </tbody>
           </table>
-
-        </div>
-      </div>
+      </Card>
     );
   }
 
